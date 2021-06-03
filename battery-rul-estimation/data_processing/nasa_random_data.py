@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import scipy.io
 
 DATA_PATH = 'data/nasa-randomized/'
+NOMINAL_CAPACITY = 2.2
 
 class NasaRandomizedData():
     def __init__(self, base_path="./"):
@@ -68,13 +69,22 @@ class NasaRandomizedData():
                     np.hstack(cycle.loc[cycle["cycle"] == x, "voltage"].to_numpy().flatten()).flatten(),
                     np.hstack(cycle.loc[cycle["cycle"] == x, "current"].to_numpy().flatten()).flatten(),
                     np.hstack(cycle.loc[cycle["cycle"] == x, "temperature"].to_numpy().flatten()).flatten()]))
-                cycle_y.append(0)
 
                 n_cycles += 1
                 step_time = np.hstack(cycle.loc[cycle["cycle"] == x, "relativeTime"].to_numpy().flatten()).flatten()
                 time.append(step_time / 3600)
                 current.append(np.hstack(cycle.loc[cycle["cycle"] == x, "current"].to_numpy().flatten()).flatten())
                 max_step = max([max_step, cycle_x[-1].shape[0]])
+
+                if cycle_y == []:
+                    cycle_y.append(NOMINAL_CAPACITY)
+                elif (cycle.loc[cycle["cycle"] == x, "comment"].iloc[0] == "reference discharge" and
+                     cycle.loc[cycle["cycle"] == x-2, "comment"].iloc[0] != "reference discharge"):
+                    cycle_y.append(np.trapz(current[-1], time[-1]))
+                else:
+                    cycle_y.append(cycle_y[-1])
+
+
             battery_n_cycle.append(n_cycles)
 
         cycle_x = self._to_padded_numpy(cycle_x, [len(cycle_x), max_step, len(cycle_x[0][0])])
@@ -186,6 +196,16 @@ if __name__ == "__main__":
     fig.update_layout(title='Time',
                     xaxis_title='Step',
                     yaxis_title='Time',
+                    width=1400,
+                    height=600)
+    fig.show()
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(y=train_y.flatten()[VISUALIZATION_START:VISUALIZATION_END],
+                        mode='lines', name='Capacity'))
+    fig.update_layout(title='Capacity',
+                    xaxis_title='Step',
+                    yaxis_title='Capacity',
                     width=1400,
                     height=600)
     fig.show()
