@@ -83,23 +83,20 @@ class NasaRandomizedData():
                      (x < 2 or cycle.loc[cycle["cycle"] == x-2, "comment"].iloc[0] != "reference discharge")):
                     current_y = np.trapz(current[-1], np.hstack(cycle.loc[cycle["cycle"] == x, "time"].to_numpy().flatten()).flatten())/3600
                     if y_between_count > 0:
-                        if first_y is True:
-                            step_y = 0
-                        else:
-                            step_y = (cycle_y[-1] - current_y)/y_between_count
+                        step_y = (cycle_y[-1] - current_y)/y_between_count
                         while y_between_count > 0:
                             cycle_y.append(cycle_y[-1]-step_y)
                             y_between_count -=1
                     cycle_y.append(current_y)
                 elif first_y is True:
-                    while y_between_count > 0:
-                        cycle_y.append(cycle_y[-1])
-                        y_between_count -=1
                     cycle_y.append(NOMINAL_CAPACITY)
                 else:
                     y_between_count += 1
                 first_y = False
 
+            while y_between_count > 0:
+                cycle_y.append(cycle_y[-1])
+                y_between_count -=1
             first_y = True
             battery_n_cycle.append(n_cycles)
 
