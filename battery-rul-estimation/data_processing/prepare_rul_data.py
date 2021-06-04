@@ -44,6 +44,8 @@ class RulHandler():
                 index = b-1
             else:
                 index = np.argmax(y_soh[a:b]<capacity_threshold[battery_nominal_capacity[battery_index]]) + a
+                if index == a:
+                    index = b-1
             self.logger.info("threshold index: {}".format(index))
             for i in range(a, b):
                 if not allow_negative_future:
