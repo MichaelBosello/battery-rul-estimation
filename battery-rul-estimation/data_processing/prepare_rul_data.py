@@ -134,14 +134,20 @@ class RulHandler():
 
     class Normalization():
         def normalize(self, train, test):
-            if len(train.shape) == 2:
-                self.multi = False
+            if len(train.shape) == 1:
+                self.case = 1
+                self.min = min(train)
+                self.max = max(train)
+                train = (train - self.min) / (self.max - self.min)
+                test = (test - self.min) / (self.max - self.min)
+            elif len(train.shape) == 2:
+                self.case = 2
                 self.min = [min(train[:,i]) for i in range(train.shape[1])]
                 self.max = [max(train[:,i]) for i in range(train.shape[1])]
                 for i in range(train.shape[1]):
                     train[:,i] = (train[:,i] - self.min[i]) / (self.max[i] - self.min[i])
                     test[:,i] = (test[:,i] - self.min[i]) / (self.max[i] - self.min[i])
-            else:
+            elif len(train.shape) == 3:
                 self.multi = True
                 self.min = [train[:,:,i].min() for i in range(train.shape[2])]
                 self.max = [train[:,:,i].max() for i in range(train.shape[2])]
@@ -150,10 +156,12 @@ class RulHandler():
                     test[:,:,i] = (test[:,:,i] - self.min[i]) / (self.max[i] - self.min[i])
             return (train, test)
         def denormalize(self, a):
-            if not self.multi:
+            if self.case == 1:
+                a = a * (self.max - self.min) + self.min
+            elif self.case == 2:
                 for i in range(a.shape[1]):
                     a[:,i] = a[:,i] * (self.max[i] - self.min[i]) + self.min[i]
-            else:
+            elif self.case == 3:
                 for i in range(a.shape[2]):
                     a[:,:,i] = a[:,:,i] * (self.max[i] - self.min[i]) + self.min[i]
             return a
