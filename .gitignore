@@ -4,8 +4,12 @@
 *.Rda
 *.Rmd
 *.html
-*.h5
 *.log
+
+*.h5
+checkpoint
+model.data*
+model.index
 
 .tmp
 
@@ -57,7 +61,8 @@ ipython_config.py
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
