@@ -4,8 +4,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-TEST_RESULT_DATA_PATH = 'data/dataset-a/test_result.csv'
-TEST_RESULT_TRIAL_END_DATA_PATH = 'data/dataset-a/test_result_trial_end.csv'
+TEST_RESULT_DATA_PATH = 'data/unibo-powertools-dataset/unibo-powertools-dataset/test_result.csv'
+TEST_RESULT_TRIAL_END_DATA_PATH = 'data/unibo-powertools-dataset/unibo-powertools-dataset/test_result_trial_end.csv'
 
 # (test_name, record_id)
 ABNORMAL_CYCLE_RECORDS = [
@@ -58,7 +58,7 @@ class CapacityCols:
     CORRESPONDING_CHARGING_CAPACITY = 19
 
 
-class DatasetA():
+class UniboPowertoolsData():
     def __init__(self,
                  test_types=[],
                  chunk_size=1000000,
