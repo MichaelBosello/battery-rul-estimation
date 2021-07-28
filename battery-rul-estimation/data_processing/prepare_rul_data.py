@@ -148,7 +148,7 @@ class RulHandler():
                     train[:,i] = (train[:,i] - self.min[i]) / (self.max[i] - self.min[i])
                     test[:,i] = (test[:,i] - self.min[i]) / (self.max[i] - self.min[i])
             elif len(train.shape) == 3:
-                self.multi = True
+                self.case = 3
                 self.min = [train[:,:,i].min() for i in range(train.shape[2])]
                 self.max = [train[:,:,i].max() for i in range(train.shape[2])]
                 for i in range(train.shape[2]):
