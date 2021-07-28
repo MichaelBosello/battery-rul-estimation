@@ -3,7 +3,7 @@ import logging
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
-from .dataset_a import CapacityCols, CycleCols
+from .unibo_powertools_data import CapacityCols, CycleCols
 
 
 class ModelDataHandler():
