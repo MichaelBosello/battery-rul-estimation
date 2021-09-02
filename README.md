@@ -8,7 +8,7 @@ This repository provides the implementation of deep LSTMs for RUL estimation. Th
 
 ## Source code structure
 
-The package *data_processing* contains the scripts that load the data from the two sets. *unibo_powertools_data.py* loads the data from the dataset A and compute the derived columns like the SOC one, while *model_data_handler.py* prepare the time series. *nasa_random_data.py* both loads and prepares the data of the NASA Randomized set. *prepare_rul_data.py* is used for both datasets; it calculates the integral of the current to obtain the RUL based on Ah, and it format the time series for the neural network.
+The package *data_processing* contains the scripts that load the data from the two sets. *unibo_powertools_data.py* loads the data from the UNIBO dataset and compute the derived columns like the SOC one, while *model_data_handler.py* prepare the time series. *nasa_random_data.py* both loads and prepares the data of the NASA Randomized set. *prepare_rul_data.py* is used for both datasets; it calculates the integral of the current to obtain the RUL based on Ah, and it format the time series for the neural network.
 
 The *experiments* directory contains the Jupyter notebooks defining the various experiments and LSTM models used. The *results* directory shows the plots of the results and the measurements like RMSE, MAE, etc.
 
