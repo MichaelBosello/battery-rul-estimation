@@ -6,6 +6,22 @@ Estimation of the Remaining Useful Life (RUL) of Lithium-ion batteries using Dee
 
 This repository provides the implementation of deep LSTMs for RUL estimation. The experiments have been performed on two datasets: the [**NASA Randomized Battery Usage Data Set**](https://ti.arc.nasa.gov/tech/dash/groups/pcoe/prognostic-data-repository/#batteryrnddischarge) and the [**UNIBO Powertools Dataset**](https://doi.org/10.17632/n6xg5fzsbv.1).
 
+## Paper
+If you use this repo, please cite our paper:
+
+*To Charge or To Sell? EV Pack Useful Life Estimation via LSTMs and Autoencoders* [[URL](https://arxiv.org/abs/2110.03585)]
+
+```
+@misc{bosello2021charge,
+      title={To Charge or To Sell? EV Pack Useful Life Estimation via LSTMs and Autoencoders}, 
+      author={Michael Bosello and Carlo Falcomer and Claudio Rossi and Giovanni Pau},
+      year={2021},
+      eprint={2110.03585},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+```
+
 ## Source code structure
 
 The package *data_processing* contains the scripts that load the data from the two sets. *unibo_powertools_data.py* loads the data from the UNIBO dataset and compute the derived columns like the SOC one, while *model_data_handler.py* prepare the time series. *nasa_random_data.py* both loads and prepares the data of the NASA Randomized set. *prepare_rul_data.py* is used for both datasets; it calculates the integral of the current to obtain the RUL based on Ah, and it format the time series for the neural network.
