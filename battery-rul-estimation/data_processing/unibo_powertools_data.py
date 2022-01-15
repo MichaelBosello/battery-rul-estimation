@@ -270,8 +270,8 @@ class UniboPowertoolsData():
                 cyc_data.append(cycle.values)
                 cap_data.append(target_cap_row.values)
 
-        cyc_data = np.array(cyc_data)
-        cap_data = np.array(cap_data)
+        cyc_data = np.array(cyc_data, dtype=object)
+        cap_data = np.array(cap_data, dtype=object)
 
         return (cyc_data, cap_data)
 
