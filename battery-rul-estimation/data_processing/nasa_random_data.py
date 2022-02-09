@@ -15,13 +15,17 @@ class NasaRandomizedData():
         self.path = base_path + DATA_PATH
         self.logger = logging.getLogger()
 
-    def get_discharge_whole_cycle_future(self, train_names, test_names):
+    def get_discharge_whole_cycle_future(self, train_names, test_names, validation_names=None):
         self.logger.info("Loading train data...")
         (train_x, train_y, battery_n_cycle_train,
             time_train, current_train) = self._get_data(train_names)
         self.logger.info("Loading test data...")
         (test_x, test_y, battery_n_cycle_test,
             time_test, current_test) = self._get_data(test_names)
+        if validation_names is not None:
+            self.logger.info("Loading validation data...")
+            (validation_x, validation_y, battery_n_cycle_validation,
+                time_validation, current_validation) = self._get_data(validation_names)
 
         self.logger.info('''Train x: %s, train y soh: %s | Test x: %s, test y soh: %s | 
                             battery n cycle train: %s, battery n cycle test: %s, 
@@ -32,6 +36,24 @@ class NasaRandomizedData():
                           battery_n_cycle_train.shape, battery_n_cycle_test.shape, 
                           time_train.shape, time_test.shape,
                           current_train.shape, current_test.shape))
+        if validation_names is not None:
+            self.logger.info('''Validation x: %s, validation y soh: %s | 
+                                battery n cycle validation: %s, 
+                                time validation: %s ,
+                                raw current validation: %s |
+                                ''' %
+                             (validation_x.shape, validation_y.shape,
+                              battery_n_cycle_validation.shape, 
+                              time_validation.shape,
+                              current_validation.shape))
+            return (train_x, train_y, test_x, test_y,
+                    battery_n_cycle_train, battery_n_cycle_test,
+                    time_train, time_test,
+                    current_train, current_test,
+                    
+                    validation_x, validation_y,
+                    battery_n_cycle_validation,
+                    time_validation, current_validation)
 
         return (train_x, train_y, test_x, test_y,
                 battery_n_cycle_train, battery_n_cycle_test,

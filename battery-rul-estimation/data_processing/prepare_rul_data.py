@@ -133,28 +133,39 @@ class RulHandler():
         return (x, y, battery_range, soh)
 
     class Normalization():
-        def normalize(self, train, test):
+        def fit(self, train):
             if len(train.shape) == 1:
                 self.case = 1
                 self.min = min(train)
                 self.max = max(train)
-                train = (train - self.min) / (self.max - self.min)
-                test = (test - self.min) / (self.max - self.min)
             elif len(train.shape) == 2:
                 self.case = 2
                 self.min = [min(train[:,i]) for i in range(train.shape[1])]
                 self.max = [max(train[:,i]) for i in range(train.shape[1])]
-                for i in range(train.shape[1]):
-                    train[:,i] = (train[:,i] - self.min[i]) / (self.max[i] - self.min[i])
-                    test[:,i] = (test[:,i] - self.min[i]) / (self.max[i] - self.min[i])
             elif len(train.shape) == 3:
                 self.case = 3
                 self.min = [train[:,:,i].min() for i in range(train.shape[2])]
                 self.max = [train[:,:,i].max() for i in range(train.shape[2])]
-                for i in range(train.shape[2]):
-                    train[:,:,i] = (train[:,:,i] - self.min[i]) / (self.max[i] - self.min[i])
-                    test[:,:,i] = (test[:,:,i] - self.min[i]) / (self.max[i] - self.min[i])
-            return (train, test)
+
+        def normalize(self, data):
+            if self.case == 1:
+                data = (data - self.min) / (self.max - self.min)
+            elif self.case == 2:
+                for i in range(data.shape[1]):
+                    data[:,i] = (data[:,i] - self.min[i]) / (self.max[i] - self.min[i])
+            elif self.case == 3:
+                for i in range(data.shape[2]):
+                    data[:,:,i] = (data[:,:,i] - self.min[i]) / (self.max[i] - self.min[i])
+            return data
+
+        def fit_and_normalize(self, train, test, val=None):
+            self.fit(train)
+            if val is not None:
+                return self.normalize(train), self.normalize(test), self.normalize(val)
+            else:
+                return self.normalize(train), self.normalize(test)
+
+
         def denormalize(self, a):
             if self.case == 1:
                 a = a * (self.max - self.min) + self.min
