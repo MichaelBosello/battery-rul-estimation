@@ -111,10 +111,12 @@ class ModelDataHandler():
             return np.array(result).T
         return np.array(list(map(map_func, x)))
 
-    def __get_padded_whole_cycle(self, train, test):
+    def __get_padded_whole_cycle(self, train, test, min_cycle_length=None):
         max_cycle_step_count = max(len(cycle)
                                    for cycle in np.append(train, test))
         required_step_count = max_cycle_step_count
+        if min_cycle_length is not None:
+            required_step_count = max(max_cycle_step_count, min_cycle_length)
 
         def padding_map_func(data):
             pad_width = ((0, required_step_count - len(data)), (0, 0))
@@ -381,7 +383,7 @@ class ModelDataHandler():
         self.logger.info("New y: %s" % (new_y.shape,))
         return new_y
 
-    def get_discharge_whole_cycle_future(self, train_names, test_names):
+    def get_discharge_whole_cycle_future(self, train_names, test_names, min_cycle_length=None):
         y_indices = [CapacityCols.CORRESPONDING_CHARGING_CAPACITY]
         train_raw_x, train_y = self.__get_whole_cycle_soh_x_y(
             self.train_discharge_cyc, self.train_discharge_cap, self.x_indices, y_indices
@@ -390,7 +392,7 @@ class ModelDataHandler():
             self.test_discharge_cyc, self.test_discharge_cap, self.x_indices, y_indices
         )
 
-        train_x, test_x = self.__get_padded_whole_cycle(train_raw_x, test_raw_x)
+        train_x, test_x = self.__get_padded_whole_cycle(train_raw_x, test_raw_x, min_cycle_length)
         train_x[:,:,1] = np.negative(train_x[:, :, 1])
         test_x[:,:,1] = np.negative(test_x[:, :, 1])
         current_train = train_x[:, :, 1]
@@ -409,7 +411,7 @@ class ModelDataHandler():
         time_test, _ = self.__get_whole_cycle_soh_x_y(
             self.test_discharge_cyc, self.test_discharge_cap, [CycleCols.STEP_TIME], y_indices
         )
-        time_train, time_test = self.__get_padded_whole_cycle(time_train, time_test)
+        time_train, time_test = self.__get_padded_whole_cycle(time_train, time_test, min_cycle_length)
 
 
         self.logger.info('''Train x: %s, train y soh: %s | Test x: %s, test y soh: %s | 
