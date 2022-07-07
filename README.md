@@ -35,18 +35,10 @@ The *experiments* directory contains the Jupyter notebooks defining the various 
 #### Python packages
 
     pip install tensorflow
-    pip install pandas
-    pip install sklearn
-    pip install scipy
+    pip install pandas sklearn scipy
     pip install plotly
-    pip install jupyterlab
+    pip install jupyter notebook ipykernel jupyterlab
 
-#### Let Plotly work in Jupyterlab
-
-1) [Install node](https://nodejs.org/en/download/package-manager)
-
-
-2) `jupyter labextension install jupyterlab-plotly`
 
 ### 2) Download the datasets
 
