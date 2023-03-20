@@ -24,8 +24,6 @@ If you use this repo, please cite our paper:
     ISSN = {1996-1073},
     DOI = {10.3390/en16062837}
 }
-
-
 ```
 
 ## Source code structure
