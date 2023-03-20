@@ -56,6 +56,6 @@ Download the [**UNIBO dataset**](https://doi.org/10.17632/n6xg5fzsbv.1) and put 
 
 Run one of the notebooks in the *experiments* directory. You can switch between training a new model or loading an existing one by toggling the value of *IS_TRAINING* at the top of the notebook (just define the model file name in *RESULT_NAME*).
 
-Check out the *results* directory if you want to see the results obtained by us (you can find the trained models in the release section of GitHub).
+Check out the *results* directory if you want to see the results obtained by us (you can find the trained models in the release section of GitHub, you can run them by putting the files into the 'trained-model' directory).
 
 If you want to run the notebook on Google Colab, load the repository in your Google Drive and set to True the variable *IS_COLAB* at the top of the notebook. This will allow the notebook to find the datasets and to save the results in your Drive. 
