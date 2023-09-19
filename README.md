@@ -39,6 +39,7 @@ The trained models are available in the GitHub release section.
 ### 1) Install requirements
 
 #### Python packages
+Tested with Tensorflow 2.7
 
     pip install tensorflow
     pip install pandas sklearn scipy
